@@ -5,7 +5,7 @@
 
 - [x]  Filtrar pets por suas características
 
-- [ ]  Visualizar detalhes de um pet para adoção
+- [x]  Visualizar detalhes de um pet para adoção
 
 - [ ]  Cadastrar uma ORG
 
