@@ -19,4 +19,5 @@ export interface PetsRepository {
     pageSize,
     type,
   }: FetchByCityProps): Promise<Pet[]>
+  findById(petId: string): Promise<Pet | null>
 }

@@ -31,20 +31,28 @@ export class InMemoryPetsRepository implements PetsRepository {
     pageSize = 10,
     type,
   }: FetchByCityProps): Promise<Pet[]> {
-    let pets: Pet[]
-    pets = this.items.filter((pet) => pet.cityId === cityId)
-    if (age) {
-      pets = pets.filter((pet) => pet.age === age)
-    }
-    if (organizationId) {
-      pets = pets.filter((pet) => pet.organizationId === organizationId)
-    }
-    if (type) {
-      pets = pets.filter((pet) => pet.type === type)
-    }
+    const start = (page - 1) * pageSize
+    const end = start + pageSize
 
-    pets = pets.slice((page - 1) * pageSize, page * pageSize)
+    const pets = this.items
+      .filter((pet) => pet.cityId === cityId)
+      .filter((pet) => (age ? pet.age === age : true))
+      .filter((pet) =>
+        organizationId ? pet.organizationId === organizationId : true,
+      )
+      .filter((pet) => (type ? pet.type === type : true))
+      .slice(start, end)
 
     return pets
+  }
+
+  async findById(petId: string): Promise<Pet | null> {
+    const pet = this.items.find((pet) => pet.id === petId)
+
+    if (!pet) {
+      return null
+    }
+
+    return pet
   }
 }
