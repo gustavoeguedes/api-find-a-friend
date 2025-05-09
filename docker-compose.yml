@@ -1,13 +1,15 @@
-version: '3'
-
 services:
   api-solid-pg:
     image: bitnami/postgresql
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_USER=docker
-      - POSTGRES_PASSWORD=docker
-      - POSTGRES_DATABASE=apifindafriend
+      - POSTGRESQL_USERNAME=docker
+      - POSTGRESQL_PASSWORD=docker
+      - POSTGRESQL_DATABASE=apifindafriend
     volumes:
-      - ./data/postgres:/bitnami/postgresql  
+      - apifindafriend-postgres:/bitnami/postgresql
+
+volumes:
+  apifindafriend-postgres:
+    driver: local
