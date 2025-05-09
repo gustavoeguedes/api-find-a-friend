@@ -3,6 +3,11 @@ import { PetsRepository } from '../repositories/pets-repository'
 
 interface FetchPetsByCityUseCaseRequest {
   cityId: string
+  type?: 'DOG' | 'CAT'
+  age?: number
+  organizationId?: string
+  page?: number
+  pageSize?: number
 }
 
 interface FetchPetsByCityUseCaseResponse {
@@ -14,8 +19,20 @@ export class FetchPetsByCityUseCase {
 
   async execute({
     cityId,
+    type,
+    age,
+    organizationId,
+    page = 1,
+    pageSize = 10,
   }: FetchPetsByCityUseCaseRequest): Promise<FetchPetsByCityUseCaseResponse> {
-    const pets = await this.petsRepository.fetchByCity(cityId)
+    const pets = await this.petsRepository.fetchByCity({
+      cityId,
+      type,
+      age,
+      organizationId,
+      page,
+      pageSize,
+    })
 
     return {
       pets,
