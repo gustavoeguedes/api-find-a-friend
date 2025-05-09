@@ -16,7 +16,7 @@ describe('Create Pet Use Case', () => {
       name: 'John Doe',
       age: 2,
       type: 'DOG',
-      city: 'São Paulo',
+      cityId: 'my-city-id',
       organizationId: 'org-1',
     })
 
@@ -24,6 +24,6 @@ describe('Create Pet Use Case', () => {
     expect(pet.name).toEqual('John Doe')
     expect(pet.age).toEqual(2)
     expect(pet.type).toEqual('DOG')
-    expect(pet.city).toEqual('São Paulo')
+    expect(pet.cityId).toEqual('my-city-id')
   })
 })

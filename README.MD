@@ -1,7 +1,7 @@
 ✅ Requisitos Funcionais
 - [x] Cadastrar um pet disponível para adoção
 
-- [ ]  Listar todos os pets disponíveis para adoção em uma cidade
+- [x]  Listar todos os pets disponíveis para adoção em uma cidade
 
 - [ ]  Filtrar pets por suas características
 

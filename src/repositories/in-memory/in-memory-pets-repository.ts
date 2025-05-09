@@ -19,4 +19,9 @@ export class InMemoryPetsRepository implements PetsRepository {
 
     return pet
   }
+
+  async fetchByCity(cityId: string): Promise<Pet[]> {
+    const pets = this.items.filter((pet) => pet.cityId === cityId)
+    return pets
+  }
 }
