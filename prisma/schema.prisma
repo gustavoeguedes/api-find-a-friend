@@ -17,11 +17,12 @@ model Pet {
   id   String  @id @default(uuid())
   name String
   type PetType
-  city String
   age  Int
 
   Organization   Organization @relation(fields: [organizationId], references: [id])
   organizationId String
+  City           City         @relation(fields: [cityId], references: [id])
+  cityId         String
 
   @@map("pets")
 }
@@ -34,6 +35,15 @@ model Organization {
   pets   Pet[]
 
   @@map("organizations")
+}
+
+model City {
+  id   String @id @default(uuid())
+  name String
+  uf   String
+  pets Pet[]
+
+  @@map("cities")
 }
 
 enum PetType {

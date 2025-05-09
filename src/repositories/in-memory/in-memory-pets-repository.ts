@@ -11,7 +11,7 @@ export class InMemoryPetsRepository implements PetsRepository {
       name: data.name,
       age: data.age,
       type: data.type,
-      city: data.city,
+      cityId: data.cityId,
       organizationId: data.organizationId,
     }
 
