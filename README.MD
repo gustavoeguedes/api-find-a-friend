@@ -7,7 +7,7 @@
 
 - [x]  Visualizar detalhes de um pet para adoção
 
-- [ ]  Cadastrar uma ORG
+- [x]  Cadastrar uma ORG
 
 - [ ]  Autenticar como uma ORG
 
@@ -24,6 +24,6 @@
 
 - [ ] O usuário interessado em adotar deve entrar em contato com a ORG via WhatsApp
 
-- [ ] Todos os filtros, além da cidade, são opcionais
+- [x] Todos os filtros, além da cidade, são opcionais
 
 - [ ] Para acessar a aplicação como admin, a ORG precisa estar logada

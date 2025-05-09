@@ -30,7 +30,7 @@ model Pet {
 model Organization {
   id     String @id @default(uuid())
   name   String
-  adress String
+  address String
   phone  String
   pets   Pet[]
 
