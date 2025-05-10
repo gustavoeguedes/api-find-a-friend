@@ -53,7 +53,7 @@ model User {
   email          String
   password_hash  String
   organization   Organization? @relation(fields: [organizationId], references: [id])
-  organizationId String
+  organizationId String?
   role           Role          @default(ORGANIZATION)
 
   @@map("users")
