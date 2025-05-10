@@ -20,7 +20,7 @@
     "dev": "tsx watch src/server.ts",
     "test": "vitest run --dir src/use-cases",
     "test:watch": "vitest --dir src/use-cases",
-    "prepare": "husky
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
