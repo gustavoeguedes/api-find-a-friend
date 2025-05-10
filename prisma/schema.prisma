@@ -28,11 +28,12 @@ model Pet {
 }
 
 model Organization {
-  id     String @id @default(uuid())
-  name   String
+  id      String @id @default(uuid())
+  name    String
   address String
-  phone  String
-  pets   Pet[]
+  phone   String
+  pets    Pet[]
+  User    User[]
 
   @@map("organizations")
 }
@@ -46,7 +47,24 @@ model City {
   @@map("cities")
 }
 
+model User {
+  id             String        @id @default(uuid())
+  name           String
+  email          String
+  password_hash  String
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+  organizationId String
+  role           Role          @default(ORGANIZATION)
+
+  @@map("users")
+}
+
 enum PetType {
   CAT
   DOG
+}
+
+enum Role {
+  ORGANIZATION
+  ADMIN
 }
