@@ -9,11 +9,14 @@ jobs:
 
     steps: 
       - uses: actions/checkout@v3
+
       - uses: actions/setup-node@v3
         with:
-          node-version: '22'
+          node-version: '20' # Versão estável recomendada
           cache: 'npm'
 
-      - run: npm ci
+      - run: npm ci --no-optional # Ignora dependências opcionais que causam erros
 
       - run: npm run test
+        env:
+          NODE_OPTIONS: '--trace-warnings' # Ajuda no diagnóstico de erros
