@@ -1,12 +1,16 @@
 import { Pet } from '@prisma/client'
 import { PetsRepository } from '../repositories/pets-repository'
+import { OrganizationsRepository } from '../repositories/organizations-repository'
+import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
 interface CreatePetUseCaseRequest {
   name: string
-  age: number
-  type: 'CAT' | 'DOG'
-  cityId: string
-  organizationId: string
+  about: string
+  age: string
+  size: string
+  energy_level: string
+  environment: string
+  organization_id: string
 }
 
 interface CreatePetUseCaseResponse {
@@ -14,21 +18,35 @@ interface CreatePetUseCaseResponse {
 }
 
 export class CreatePetUseCase {
-  constructor(private readonly petsRepository: PetsRepository) {}
+  constructor(
+    private readonly petsRepository: PetsRepository,
+    private readonly organizationsRepository: OrganizationsRepository,
+  ) {}
 
   async execute({
     age,
-    cityId,
     name,
-    type,
-    organizationId,
+    about,
+    size,
+    energy_level,
+    environment,
+    organization_id,
   }: CreatePetUseCaseRequest): Promise<CreatePetUseCaseResponse> {
+    const organization =
+      await this.organizationsRepository.findById(organization_id)
+
+    if (!organization) {
+      throw new ResourceNotFoundError()
+    }
+
     const pet = await this.petsRepository.create({
       name,
       age,
-      type,
-      cityId,
-      organizationId,
+      about,
+      size,
+      energy_level,
+      organization_id,
+      environment,
     })
 
     return {

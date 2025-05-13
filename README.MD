@@ -1,19 +1,17 @@
 ✅ Requisitos Funcionais
-- [x] Cadastrar um pet disponível para adoção
 
-- [x]  Listar todos os pets disponíveis para adoção em uma cidade
+- [x] Deve ser possível cadastrar um pet
 
-- [x]  Filtrar pets por suas características
+- [x] Deve ser possível listar todos os pets disponíveis para adoção em uma cidade
 
-- [x]  Visualizar detalhes de um pet para adoção
+- [x] Deve ser possível filtrar pets por suas características
 
-- [x]  Cadastrar uma ORG
+- [x] Deve ser possível visualizar detalhes de um pet para adoção
 
-- [ ]  Autenticar como uma ORG
+- [x] Deve ser possível se cadastrar como uma ORG
 
-- [ ]  Realizar login como uma ORG
+- [ ] Deve ser possível realizar login como uma ORG
 
-- [ ]  Cadastrar requisitos de adoção
 
 📌 Regras de Negócio
 - [ ] Para listar os pets, obrigatoriamente é necessário informar a cidade

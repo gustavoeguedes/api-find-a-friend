@@ -1,40 +1,57 @@
 import { expect, describe, it, beforeEach } from 'vitest'
 import { RegisterUseCase } from './register'
 import { compare } from 'bcryptjs'
-import { InMemoryUsersRepository } from '../../src/tests/repositories/in-memory-users-repository'
+import { InMemoryOrganizationsRepository } from '../../src/tests/repositories/in-memory-organizations-repository'
 import { UserAlreadyExistsError } from './errors/user-already-exists-error'
 
-let usersRepository: InMemoryUsersRepository
+let organizationsRepository: InMemoryOrganizationsRepository
 let sut: RegisterUseCase
 
 describe('Register Use Case', () => {
   beforeEach(() => {
-    usersRepository = new InMemoryUsersRepository()
-    sut = new RegisterUseCase(usersRepository)
+    organizationsRepository = new InMemoryOrganizationsRepository()
+    sut = new RegisterUseCase(organizationsRepository)
   })
 
   it('shoud be able to register', async () => {
-    const { user } = await sut.execute({
-      name: 'John Doe',
+    const { organization } = await sut.execute({
+      name: 'organization name',
       email: 'email@email.com',
-      organizationId: 'my-organization-id',
       password: '123456',
+      author_name: 'John Doe',
+      cep: '12345678',
+      street: 'Street name',
+      city: 'City name',
+      latitude: -23.123456,
+      longitude: -46.123456,
+      neighborhood: 'Neighborhood name',
+      phone: '123456789',
+      state: 'State name',
     })
 
-    expect(user.id).toEqual(expect.any(String))
-    expect(user.name).toEqual('John Doe')
+    expect(organization.id).toEqual(expect.any(String))
+    expect(organization.name).toEqual('organization name')
   })
 
   it('shoud hash user password user registration', async () => {
-    const { user } = await sut.execute({
-      name: 'John Doe',
+    const { organization } = await sut.execute({
+      name: 'organization name',
       email: 'email@email.com',
       password: '123456',
+      author_name: 'John Doe',
+      cep: '12345678',
+      street: 'Street name',
+      city: 'City name',
+      latitude: -23.123456,
+      longitude: -46.123456,
+      neighborhood: 'Neighborhood name',
+      phone: '123456789',
+      state: 'State name',
     })
 
     const isPasswordCorrectlyHashed = await compare(
       '123456',
-      user.password_hash,
+      organization.password,
     )
 
     expect(isPasswordCorrectlyHashed).toBe(true)
@@ -44,16 +61,34 @@ describe('Register Use Case', () => {
     const email = 'johndoe@example.com'
 
     await sut.execute({
-      name: 'John Doe',
+      name: 'organization name',
       email,
       password: '123456',
+      author_name: 'John Doe',
+      cep: '12345678',
+      street: 'Street name',
+      city: 'City name',
+      latitude: -23.123456,
+      longitude: -46.123456,
+      neighborhood: 'Neighborhood name',
+      phone: '123456789',
+      state: 'State name',
     })
 
     await expect(() =>
       sut.execute({
-        name: 'John Doe',
+        name: 'organization name',
         email,
         password: '123456',
+        author_name: 'John Doe',
+        cep: '12345678',
+        street: 'Street name',
+        city: 'City name',
+        latitude: -23.123456,
+        longitude: -46.123456,
+        neighborhood: 'Neighborhood name',
+        phone: '123456789',
+        state: 'State name',
       }),
     ).rejects.toBeInstanceOf(UserAlreadyExistsError)
   })

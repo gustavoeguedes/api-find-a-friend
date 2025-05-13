@@ -15,6 +15,7 @@
   "description": "api para adoção de pets",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint src --ext .ts --fix",
     "dev": "tsx watch src/server.ts",
     "test": "vitest run --dir src/use-cases",
     "test:watch": "vitest --dir src/use-cases"

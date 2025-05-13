@@ -4,18 +4,22 @@ import {
   PetsRepository,
 } from '../../repositories/pets-repository'
 import { randomUUID } from 'crypto'
+import { InMemoryOrganizationsRepository } from './in-memory-organizations-repository'
 
 export class InMemoryPetsRepository implements PetsRepository {
+  constructor(private orgsRepository: InMemoryOrganizationsRepository) {}
   public items: Pet[] = []
 
   async create(data: Prisma.PetUncheckedCreateInput) {
-    const pet = {
+    const pet: Pet = {
       id: randomUUID(),
       name: data.name,
       age: data.age,
-      type: data.type,
-      cityId: data.cityId,
-      organizationId: data.organizationId,
+      about: data.about,
+      size: data.size,
+      energy_level: data.energy_level,
+      environment: data.environment,
+      organization_id: data.organization_id,
     }
 
     this.items.push(pet)
@@ -24,23 +28,29 @@ export class InMemoryPetsRepository implements PetsRepository {
   }
 
   async fetchByCity({
-    cityId,
+    city,
     age,
-    organizationId,
+    size,
+    energy_level,
+    environment,
     page = 1,
     pageSize = 10,
-    type,
   }: FetchByCityProps): Promise<Pet[]> {
     const start = (page - 1) * pageSize
     const end = start + pageSize
-
+    const orgsByCity = this.orgsRepository.items.filter(
+      (org) => org.city === city,
+    )
     const pets = this.items
-      .filter((pet) => pet.cityId === cityId)
-      .filter((pet) => (age ? pet.age === age : true))
-      .filter((pet) =>
-        organizationId ? pet.organizationId === organizationId : true,
+      .filter((item) =>
+        orgsByCity.some((org) => org.id === item.organization_id),
       )
-      .filter((pet) => (type ? pet.type === type : true))
+      .filter((item) => (age ? item.age === age : true))
+      .filter((item) => (size ? item.size === size : true))
+      .filter((item) =>
+        energy_level ? item.energy_level === energy_level : true,
+      )
+      .filter((item) => (environment ? item.environment === environment : true))
       .slice(start, end)
 
     return pets

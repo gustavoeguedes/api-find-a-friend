@@ -14,57 +14,38 @@ datasource db {
 }
 
 model Pet {
-  id   String  @id @default(uuid())
-  name String
-  type PetType
-  age  Int
+  id           String @id @default(uuid())
+  name         String
+  about        String
+  age          String
+  size         String
+  energy_level String
+  environment  String
 
-  Organization   Organization @relation(fields: [organizationId], references: [id])
-  organizationId String
-  City           City         @relation(fields: [cityId], references: [id])
-  cityId         String
+  Organization    Organization @relation(fields: [organization_id], references: [id])
+  organization_id String
 
   @@map("pets")
 }
 
 model Organization {
-  id      String @id @default(uuid())
-  name    String
-  address String
-  phone   String
-  pets    Pet[]
-  User    User[]
+  id          String @id @default(uuid())
+  name        String
+  author_name String
+  email       String @unique
+  phone       String
+  password    String
 
-  @@map("organizations")
-}
+  cep          String
+  state        String
+  city         String
+  neighborhood String
+  street       String
 
-model City {
-  id   String @id @default(uuid())
-  name String
-  uf   String
+  latitude  Decimal
+  longitude Decimal
+
   pets Pet[]
 
-  @@map("cities")
-}
-
-model User {
-  id             String        @id @default(uuid())
-  name           String
-  email          String
-  password_hash  String
-  organization   Organization? @relation(fields: [organizationId], references: [id])
-  organizationId String?
-  role           Role          @default(ORGANIZATION)
-
-  @@map("users")
-}
-
-enum PetType {
-  CAT
-  DOG
-}
-
-enum Role {
-  ORGANIZATION
-  ADMIN
+  @@map("organizations")
 }

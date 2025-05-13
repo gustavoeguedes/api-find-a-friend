@@ -2,10 +2,11 @@ import { Pet } from '@prisma/client'
 import { PetsRepository } from '../repositories/pets-repository'
 
 interface FetchPetsByCityUseCaseRequest {
-  cityId: string
-  type?: 'DOG' | 'CAT'
-  age?: number
-  organizationId?: string
+  city: string
+  age?: string
+  size?: string
+  energy_level?: string
+  environment?: string
   page?: number
   pageSize?: number
 }
@@ -18,18 +19,20 @@ export class FetchPetsByCityUseCase {
   constructor(private readonly petsRepository: PetsRepository) {}
 
   async execute({
-    cityId,
-    type,
+    city,
     age,
-    organizationId,
+    size,
+    energy_level,
+    environment,
     page = 1,
     pageSize = 10,
   }: FetchPetsByCityUseCaseRequest): Promise<FetchPetsByCityUseCaseResponse> {
     const pets = await this.petsRepository.fetchByCity({
-      cityId,
-      type,
+      city,
       age,
-      organizationId,
+      size,
+      energy_level,
+      environment,
       page,
       pageSize,
     })
