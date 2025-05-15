@@ -3,13 +3,16 @@ import { InMemoryPetsRepository } from '../tests/repositories/in-memory-pets-rep
 import { makePet } from '../tests/factories/make-pet'
 import { FindPetByIdUseCase } from './find-pet-by-id'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { InMemoryOrganizationsRepository } from '../tests/repositories/in-memory-organizations-repository'
 
 let petsRepository: InMemoryPetsRepository
+let organizationsRepository: InMemoryOrganizationsRepository
 let sut: FindPetByIdUseCase
 
 describe('Find Pet By Id Use Case', () => {
   beforeEach(async () => {
-    petsRepository = new InMemoryPetsRepository()
+    organizationsRepository = new InMemoryOrganizationsRepository()
+    petsRepository = new InMemoryPetsRepository(organizationsRepository)
     sut = new FindPetByIdUseCase(petsRepository)
   })
 
@@ -21,7 +24,7 @@ describe('Find Pet By Id Use Case', () => {
     petsRepository.items.push(newPet)
 
     const { pet } = await sut.execute({
-      petId: 'my-pet-id',
+      id: 'my-pet-id',
     })
 
     expect(pet).toEqual(newPet)
@@ -36,7 +39,7 @@ describe('Find Pet By Id Use Case', () => {
 
     await expect(() =>
       sut.execute({
-        petId: 'non-existing-pet-id',
+        id: 'non-existing-pet-id',
       }),
     ).rejects.toBeInstanceOf(ResourceNotFoundError)
   })

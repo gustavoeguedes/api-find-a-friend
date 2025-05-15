@@ -2,13 +2,6 @@ import { Prisma, Pet } from '@prisma/client'
 import { FetchByCityProps, PetsRepository } from '../pets-repository'
 import { prisma } from '../../lib/prisma'
 
-interface FilterWhereProps {
-  age?: number
-  cityId: string
-  organizationId?: string
-  type?: 'DOG' | 'CAT'
-}
-
 export class PrismaPetsRepository implements PetsRepository {
   async create(data: Prisma.PetUncheckedCreateInput) {
     const pet = await prisma.pet.create({ data })
@@ -16,37 +9,32 @@ export class PrismaPetsRepository implements PetsRepository {
   }
 
   async fetchByCity({
-    cityId,
     age,
-    organizationId,
+    city,
+    energy_level,
+    environment,
+    size,
+
     page = 1,
     pageSize = 10,
-    type,
   }: FetchByCityProps): Promise<Pet[]> {
-    const filterWhere: FilterWhereProps = {
-      cityId,
-    }
-    if (age) {
-      filterWhere.age = age
-    }
-
-    if (organizationId) {
-      filterWhere.organizationId = organizationId
-    }
-    if (type) {
-      filterWhere.type = type
-    }
     const pets = await prisma.pet.findMany({
-      where: filterWhere,
+      where: {
+        Organization: { city },
+        size,
+        age,
+        environment,
+        energy_level,
+      },
       take: pageSize,
-      skip: (page - 1) * 20,
+      skip: (page - 1) * pageSize,
     })
 
     return pets
   }
 
-  async findById(petId: string): Promise<Pet | null> {
-    const pet = await prisma.pet.findUnique({ where: { id: petId } })
+  async findById(id: string): Promise<Pet | null> {
+    const pet = await prisma.pet.findUnique({ where: { id } })
 
     if (!pet) return null
 
